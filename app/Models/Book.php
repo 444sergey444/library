@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @method static create(mixed $validated)
+ */
 class Book extends Model
 {
     use HasFactory;
@@ -26,21 +29,12 @@ class Book extends Model
     public function scopeFilter(Builder $query, array $filters)
     {
         foreach ($filters as $name => $filter) {
-            if ($name === 'title') {
-                $query->where('title', $filter);
-            }
-
-            if ($name === 'author_name') {
-                $query->whereRelation('author', 'name', $filter);
-            }
-
-            if ($name === 'author_id') {
-                $query->where('author_id', $filter);
-            }
-
-            if ($name === 'description') {
-                $query->where('description', 'like', "%$filter%");
-            }
+            match ($name) {
+                'title' => $query->where('title', $filter),
+                'author_name' => $query->whereRelation('author', 'name', $filter),
+                'author_id' => $query->where('author_id', $filter),
+                'description' => $query->where('description', 'like', "%$filter%"),
+            };
         }
     }
 }

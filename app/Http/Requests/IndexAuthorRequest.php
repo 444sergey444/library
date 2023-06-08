@@ -22,11 +22,11 @@ class IndexAuthorRequest extends FormRequest
 
     public function getLimit(): int
     {
-        return (int) $this->get('limit', 5);
+        return $this->integer('limit', 5);
     }
 
     public function getOffset(): int
     {
-        return (int) $this->get('offset', 1);
+        return $this->integer('offset', 1);
     }
 }

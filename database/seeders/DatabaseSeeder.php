@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Author::factory()->count(10)->create();
-        Book::factory()->count(30)->create();
+        for ($i = 0; $i < 10; $i++) {
+            Author::factory()->has(Book::factory()->count(3))->create();
+        }
     }
 }
