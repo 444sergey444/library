@@ -29,11 +29,11 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request): Response
+    public function store(StoreBookRequest $request): BookResource
     {
-        Book::create($request->validated());
+        $book = Book::create($request->validated());
 
-        return response(status: 201);
+        return BookResource::make($book->load('author'));
     }
 
     /**
@@ -41,7 +41,7 @@ class BookController extends Controller
      */
     public function show(Book $book): BookResource
     {
-        return BookResource::make($book);
+        return BookResource::make($book->load('author'));
     }
 
     /**
@@ -51,7 +51,7 @@ class BookController extends Controller
     {
         $book->update($request->validated());
 
-        return BookResource::make($book->fresh());
+        return BookResource::make($book->fresh()->load('author'));
     }
 
     /**

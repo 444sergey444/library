@@ -17,8 +17,7 @@ class BookResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'author_name' => $this->author->name,
-            'author_id' => $this->author_id,
+            'author' => AuthorResource::make($this->whenLoaded('author')),
             'description' => $this->description
         ];
     }
